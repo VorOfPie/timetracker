@@ -9,7 +9,6 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
@@ -29,5 +28,4 @@ public class Project {
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TaskDetail> taskDetails = new ArrayList<>();
-
 }
