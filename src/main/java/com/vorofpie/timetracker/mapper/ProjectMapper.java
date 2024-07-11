@@ -1,10 +1,10 @@
 package com.vorofpie.timetracker.mapper;
 
 import com.vorofpie.timetracker.domain.Project;
-import com.vorofpie.timetracker.dto.request.ProjectRequest;
+import com.vorofpie.timetracker.dto.request.CreateProjectRequest;
+import com.vorofpie.timetracker.dto.request.UpdateProjectRequest;
 import com.vorofpie.timetracker.dto.response.ProjectResponse;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 
@@ -13,8 +13,8 @@ public interface ProjectMapper {
 
     ProjectResponse toProjectResponse(Project project);
 
-    Project toProject(ProjectRequest projectRequest);
+    Project toProject(CreateProjectRequest createProjectRequest);
 
-    @Mapping(target = "id", ignore = true)
-    void updateProjectFromRequest(ProjectRequest projectRequest, @MappingTarget Project project);
+    Project updateProjectFromProjectRequest(UpdateProjectRequest updateProjectRequest,@MappingTarget Project project);
+
 }

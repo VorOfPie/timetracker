@@ -29,8 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse getUserById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = findUserByIdOrThrow(id);
         return userMapper.toUserResponse(user);
     }
 
@@ -43,8 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse updateUser(Long id, UserRequest userRequest) {
-        User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User existingUser = findUserByIdOrThrow(id);
         userMapper.updateUserFromRequest(userRequest, existingUser);
         existingUser = userRepository.save(existingUser);
         return userMapper.toUserResponse(existingUser);
@@ -53,5 +51,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    private User findUserByIdOrThrow(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 }

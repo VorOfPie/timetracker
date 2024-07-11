@@ -12,15 +12,15 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/record-details")
+@RequestMapping("/api/v1/records")
 public class RecordDetailController {
 
     private final RecordDetailService recordDetailService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RecordDetailResponse createRecordDetail(@RequestBody @Valid RecordDetailRequest recordDetailRequest) {
-        return recordDetailService.createRecordDetail(recordDetailRequest);
+    public RecordDetailResponse createRecordDetail(@RequestBody @Valid RecordDetailRequest RecordDetailRequest) {
+        return recordDetailService.createRecordDetail(RecordDetailRequest);
     }
 
     @PutMapping("/{id}")

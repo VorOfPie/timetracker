@@ -1,7 +1,8 @@
 package com.vorofpie.timetracker.dto.request;
 
-
+import com.vorofpie.timetracker.domain.TaskStatus;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record TaskDetailRequest(
@@ -12,7 +13,9 @@ public record TaskDetailRequest(
         @Size(max = 255, message = "{taskdetail.description.size}")
         String description,
 
-        @NotBlank(message = "{taskdetail.status.notblank}")
-        @Size(max = 50, message = "{taskdetail.status.size}")
-        String status
+        @NotNull(message = "{taskdetail.status.notblank}")
+        TaskStatus status,
+
+        @NotNull(message = "{taskdetail.projectId.notblank}")
+        Long projectId
 ) {}

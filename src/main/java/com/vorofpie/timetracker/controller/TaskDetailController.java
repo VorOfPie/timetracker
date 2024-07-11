@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/task-details")
+@RequestMapping("/api/v1/tasks")
 public class TaskDetailController {
 
     private final TaskDetailService taskDetailService;

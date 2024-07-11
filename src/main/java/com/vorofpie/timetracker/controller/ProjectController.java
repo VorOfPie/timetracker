@@ -1,6 +1,7 @@
 package com.vorofpie.timetracker.controller;
 
-import com.vorofpie.timetracker.dto.request.ProjectRequest;
+import com.vorofpie.timetracker.dto.request.CreateProjectRequest;
+import com.vorofpie.timetracker.dto.request.UpdateProjectRequest;
 import com.vorofpie.timetracker.dto.response.ProjectResponse;
 import com.vorofpie.timetracker.service.ProjectService;
 import jakarta.validation.Valid;
@@ -19,14 +20,14 @@ public class ProjectController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProjectResponse createProject(@RequestBody @Valid ProjectRequest projectRequest) {
-        return projectService.createProject(projectRequest);
+    public ProjectResponse createProject(@RequestBody @Valid CreateProjectRequest createProjectRequest) {
+        return projectService.createProject(createProjectRequest);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ProjectResponse updateProject(@PathVariable Long id, @RequestBody @Valid ProjectRequest projectRequest) {
-        return projectService.updateProject(id, projectRequest);
+    public ProjectResponse updateProject(@PathVariable Long id, @RequestBody @Valid UpdateProjectRequest updateProjectRequest) {
+        return projectService.updateProject(id, updateProjectRequest);
     }
 
     @DeleteMapping("/{id}")
@@ -45,5 +46,11 @@ public class ProjectController {
     @ResponseStatus(HttpStatus.OK)
     public List<ProjectResponse> getAllProjects() {
         return projectService.getAllProjects();
+    }
+
+    @PostMapping("/{projectId}/users/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ProjectResponse addUserToProject(@PathVariable Long projectId, @PathVariable Long userId) {
+        return projectService.addUserToProject(projectId, userId);
     }
 }

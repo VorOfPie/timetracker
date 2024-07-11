@@ -1,6 +1,6 @@
 package com.vorofpie.timetracker.dto.request;
 
-
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -14,5 +14,12 @@ public record RecordDetailRequest(
         LocalDateTime endTime,
 
         @NotBlank(message = "{recorddetail.description.notblank}")
-        String description
-) {}
+        String description,
+
+        @NotNull(message = "{recorddetail.taskid.notnull}")
+        Long taskId,
+        @NotBlank(message = "{user.email.notblank}")
+        @Email(message = "{user.email.invalid}")
+        String userEmail
+) {
+}

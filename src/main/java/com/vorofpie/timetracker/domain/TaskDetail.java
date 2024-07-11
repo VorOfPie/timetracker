@@ -18,6 +18,7 @@ public class TaskDetail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
@@ -27,10 +28,10 @@ public class TaskDetail {
 
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status;
+    private TaskStatus status;
 
-    @ManyToMany(mappedBy = "tasks")
+    @OneToMany(mappedBy = "task")
     private List<RecordDetail> recordDetails = new ArrayList<>();
-
 }

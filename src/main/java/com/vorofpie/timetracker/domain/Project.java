@@ -18,14 +18,21 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
+
     @Column(nullable = false)
     private String name;
 
     private String description;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RecordDetail> recordDetails = new ArrayList<>();
-
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TaskDetail> taskDetails = new ArrayList<>();
+
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "project_users",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+
+    private List<User> users = new ArrayList<>();
 }
