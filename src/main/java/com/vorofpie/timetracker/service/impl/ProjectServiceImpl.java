@@ -36,21 +36,28 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectResponse createProject(ProjectRequest projectRequest) {
         Project project = projectMapper.toProject(projectRequest);
-        project = projectRepository.save(project);
-        return projectMapper.toProjectResponse(project);
+        project.getTaskDetails().forEach(item -> item.setProject(project));
+        return projectMapper.toProjectResponse(projectRepository.save(project));
     }
 
     @Override
     public ProjectResponse updateProject(Long id, ProjectRequest projectRequest) {
-        Project existingProject = projectRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
-        projectMapper.updateProjectFromRequest(projectRequest, existingProject);
-        existingProject = projectRepository.save(existingProject);
-        return projectMapper.toProjectResponse(existingProject);
+        Project existingProject =findProjectByIdOrThrow(id);
+        Project newProject = projectMapper.toProject(projectRequest);
+        existingProject.setName(newProject.getName());
+        existingProject.setDescription(newProject.getDescription());
+        existingProject.getTaskDetails().forEach(item -> item.setProject(existingProject));
+        Project updatedProject = projectRepository.save(existingProject);
+        return projectMapper.toProjectResponse(updatedProject);
     }
 
     @Override
     public void deleteProject(Long id) {
         projectRepository.deleteById(id);
+    }
+
+    private Project findProjectByIdOrThrow(Long id) {
+        return projectRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
     }
 }

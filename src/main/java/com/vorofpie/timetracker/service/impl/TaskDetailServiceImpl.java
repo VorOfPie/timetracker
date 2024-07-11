@@ -29,8 +29,7 @@ public class TaskDetailServiceImpl implements TaskDetailService {
 
     @Override
     public TaskDetailResponse getTaskDetailById(Long id) {
-        TaskDetail taskDetail = taskDetailRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Task detail not found"));
+        TaskDetail taskDetail = findTaskDetailByIdOrThrow(id);
         return taskDetailMapper.toTaskDetailResponse(taskDetail);
     }
 
@@ -45,8 +44,7 @@ public class TaskDetailServiceImpl implements TaskDetailService {
     @Override
     @Transactional
     public TaskDetailResponse updateTaskDetail(Long id, TaskDetailRequest taskDetailRequest) {
-        TaskDetail existingTaskDetail = taskDetailRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Task detail not found"));
+        TaskDetail existingTaskDetail = findTaskDetailByIdOrThrow(id);
         taskDetailMapper.updateTaskDetailFromRequest(taskDetailRequest, existingTaskDetail);
         existingTaskDetail = taskDetailRepository.save(existingTaskDetail);
         return taskDetailMapper.toTaskDetailResponse(existingTaskDetail);
@@ -55,5 +53,10 @@ public class TaskDetailServiceImpl implements TaskDetailService {
     @Override
     public void deleteTaskDetail(Long id) {
         taskDetailRepository.deleteById(id);
+    }
+
+    private TaskDetail findTaskDetailByIdOrThrow(Long id) {
+        return taskDetailRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Task detail not found"));
     }
 }

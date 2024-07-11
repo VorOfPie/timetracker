@@ -1,5 +1,6 @@
 package com.vorofpie.timetracker.controller;
 
+import com.vorofpie.timetracker.dto.request.CreateRecordDetailRequest;
 import com.vorofpie.timetracker.dto.request.RecordDetailRequest;
 import com.vorofpie.timetracker.dto.response.RecordDetailResponse;
 import com.vorofpie.timetracker.service.RecordDetailService;
@@ -19,8 +20,8 @@ public class RecordDetailController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RecordDetailResponse createRecordDetail(@RequestBody @Valid RecordDetailRequest recordDetailRequest) {
-        return recordDetailService.createRecordDetail(recordDetailRequest);
+    public RecordDetailResponse createRecordDetail(@RequestBody @Valid CreateRecordDetailRequest createRecordDetailRequest) {
+        return recordDetailService.createRecordDetail(createRecordDetailRequest);
     }
 
     @PutMapping("/{id}")

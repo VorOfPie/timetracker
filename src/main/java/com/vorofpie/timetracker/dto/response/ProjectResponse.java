@@ -7,6 +7,5 @@ public record ProjectResponse(
         Long id,
         String name,
         String description,
-        List<RecordDetailResponse> recordDetails,
         List<TaskDetailResponse> taskDetails) {
 }

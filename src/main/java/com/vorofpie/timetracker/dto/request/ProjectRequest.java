@@ -14,7 +14,5 @@ public record ProjectRequest(
         @Size(max = 255, message = "{project.description.size}")
         String description,
 
-        List<RecordDetailRequest> recordDetails,
-
         List<TaskDetailRequest> taskDetails
 ) {}

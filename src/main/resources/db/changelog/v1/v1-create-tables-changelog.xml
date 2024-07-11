@@ -36,7 +36,7 @@
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="project_id" type="BIGINT">
+            <column name="task_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="start_time" type="DATETIME">
@@ -49,16 +49,6 @@
         </createTable>
     </changeSet>
     <changeSet id="7" author="Voropay Matvey">
-        <createTable tableName="record_task">
-            <column name="record_id" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="task_id" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet id="8" author="Voropay Matvey">
         <createTable tableName="task_details">
             <column name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_task_details"/>
@@ -75,7 +65,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="9" author="Voropay Matvey">
+    <changeSet id="8" author="Voropay Matvey">
         <createTable tableName="users">
             <column name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users"/>
@@ -94,36 +84,28 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="10" author="Voropay Matvey">
+    <changeSet id="9" author="Voropay Matvey">
         <addUniqueConstraint columnNames="email" constraintName="uc_users_email" tableName="users"/>
     </changeSet>
-    <changeSet id="11" author="Voropay Matvey">
+    <changeSet id="10" author="Voropay Matvey">
         <addUniqueConstraint columnNames="username" constraintName="uc_users_username" tableName="users"/>
     </changeSet>
-    <changeSet id="12" author="Voropay Matvey">
-        <addForeignKeyConstraint baseColumnNames="project_id" baseTableName="record_details"
-                                 constraintName="FK_RECORD_DETAILS_ON_PROJECT" referencedColumnNames="id"
-                                 referencedTableName="projects"/>
+    <changeSet id="11" author="Voropay Matvey">
+        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="record_details"
+                                 constraintName="FK_RECORD_DETAILS_ON_TASK" referencedColumnNames="id"
+                                 referencedTableName="task_details"
+                                 onDelete="CASCADE"/>
     </changeSet>
-    <changeSet id="13" author="Voropay Matvey">
+    <changeSet id="12" author="Voropay Matvey">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="record_details"
                                  constraintName="FK_RECORD_DETAILS_ON_USER" referencedColumnNames="id"
-                                 referencedTableName="users"/>
+                                 referencedTableName="users"
+                                 onDelete="CASCADE"/>
     </changeSet>
-    <changeSet id="14" author="Voropay Matvey">
+    <changeSet id="13" author="Voropay Matvey">
         <addForeignKeyConstraint baseColumnNames="project_id" baseTableName="task_details"
                                  constraintName="FK_TASK_DETAILS_ON_PROJECT" referencedColumnNames="id"
-                                 referencedTableName="projects"/>
+                                 referencedTableName="projects"
+                                 onDelete="CASCADE"/>
     </changeSet>
-    <changeSet id="15" author="Voropay Matvey">
-        <addForeignKeyConstraint baseColumnNames="record_id" baseTableName="record_task"
-                                 constraintName="fk_rectas_on_record_detail" referencedColumnNames="id"
-                                 referencedTableName="record_details"/>
-    </changeSet>
-    <changeSet id="16" author="Voropay Matvey">
-        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="record_task"
-                                 constraintName="fk_rectas_on_task_detail" referencedColumnNames="id"
-                                 referencedTableName="task_details"/>
-    </changeSet>
-
 </databaseChangeLog>
