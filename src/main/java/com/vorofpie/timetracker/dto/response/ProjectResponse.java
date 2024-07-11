@@ -7,5 +7,7 @@ public record ProjectResponse(
         Long id,
         String name,
         String description,
-        List<TaskDetailResponse> taskDetails) {
+        List<TaskDetailResponse> taskDetails,
+        List<UserResponse> users
+) {
 }

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
-public record ProjectRequest(
+public record CreateProjectRequest(
         @NotBlank(message = "{project.name.notblank}")
         @Size(max = 100, message = "{project.name.size}")
         String name,
@@ -14,5 +14,7 @@ public record ProjectRequest(
         @Size(max = 255, message = "{project.description.size}")
         String description,
 
-        List<TaskDetailRequest> taskDetails
+        List<TaskDetailRequest> taskDetails,
+
+        List<UserRequest> users
 ) {}

@@ -1,6 +1,5 @@
 package com.vorofpie.timetracker.service;
 
-import com.vorofpie.timetracker.dto.request.CreateRecordDetailRequest;
 import com.vorofpie.timetracker.dto.request.RecordDetailRequest;
 import com.vorofpie.timetracker.dto.response.RecordDetailResponse;
 
@@ -12,7 +11,7 @@ public interface RecordDetailService {
 
     RecordDetailResponse getRecordDetailById(Long id);
 
-    RecordDetailResponse createRecordDetail(CreateRecordDetailRequest recordDetailRequest);
+    RecordDetailResponse createRecordDetail(RecordDetailRequest recordDetailRequest);
 
     RecordDetailResponse updateRecordDetail(Long id, RecordDetailRequest recordDetailRequest);
 

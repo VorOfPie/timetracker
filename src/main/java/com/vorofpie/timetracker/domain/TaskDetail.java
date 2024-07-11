@@ -28,8 +28,9 @@ public class TaskDetail {
 
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status;
+    private TaskStatus status;
 
     @OneToMany(mappedBy = "task")
     private List<RecordDetail> recordDetails = new ArrayList<>();

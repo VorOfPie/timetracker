@@ -1,6 +1,7 @@
 package com.vorofpie.timetracker.service;
 
-import com.vorofpie.timetracker.dto.request.ProjectRequest;
+import com.vorofpie.timetracker.dto.request.CreateProjectRequest;
+import com.vorofpie.timetracker.dto.request.UpdateProjectRequest;
 import com.vorofpie.timetracker.dto.response.ProjectResponse;
 
 import java.util.List;
@@ -11,9 +12,11 @@ public interface ProjectService {
 
     ProjectResponse getProjectById(Long id);
 
-    ProjectResponse createProject(ProjectRequest projectRequest);
+    ProjectResponse createProject(CreateProjectRequest createProjectRequest);
 
-    ProjectResponse updateProject(Long id, ProjectRequest projectRequest);
+    ProjectResponse updateProject(Long id, UpdateProjectRequest createProjectRequest);
 
     void deleteProject(Long id);
+
+    ProjectResponse addUserToProject(Long projectId, Long userId);
 }
