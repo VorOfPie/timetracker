@@ -34,13 +34,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse createUser(UserRequest userRequest) {
-        User user = userMapper.toUser(userRequest);
-        user = userRepository.save(user);
-        return userMapper.toUserResponse(user);
-    }
-
-    @Override
     public UserResponse updateUser(Long id, UserRequest userRequest) {
         User existingUser = findUserByIdOrThrow(id);
         userMapper.updateUserFromRequest(userRequest, existingUser);
