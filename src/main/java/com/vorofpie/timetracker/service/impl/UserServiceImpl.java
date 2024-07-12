@@ -1,5 +1,6 @@
 package com.vorofpie.timetracker.service.impl;
 
+import com.vorofpie.timetracker.aspect.annotation.EmailMatchOrAdminAccess;
 import com.vorofpie.timetracker.domain.User;
 import com.vorofpie.timetracker.dto.request.UserRequest;
 import com.vorofpie.timetracker.dto.response.UserResponse;
@@ -27,12 +28,13 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @EmailMatchOrAdminAccess
     @Override
     public UserResponse getUserById(Long id) {
         User user = findUserByIdOrThrow(id);
         return userMapper.toUserResponse(user);
     }
-
+    @EmailMatchOrAdminAccess
     @Override
     public UserResponse updateUser(Long id, UserRequest userRequest) {
         User existingUser = findUserByIdOrThrow(id);
@@ -40,7 +42,7 @@ public class UserServiceImpl implements UserService {
         existingUser = userRepository.save(existingUser);
         return userMapper.toUserResponse(existingUser);
     }
-
+    @EmailMatchOrAdminAccess
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);

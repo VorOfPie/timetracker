@@ -14,10 +14,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-
 import static com.vorofpie.timetracker.domain.RoleName.ADMIN;
 import static org.springframework.http.HttpMethod.*;
-import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -30,24 +28,19 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
 
-    private static final String[] ADMIN_URL = {
-            "/api/v1/project/**",
-            "/api/v1/task/**"
-           };
-
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(withDefaults())
+                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers(POST, ADMIN_URL).hasRole(ADMIN.name())
-                        .requestMatchers(PUT, ADMIN_URL).hasRole(ADMIN.name())
-                        .requestMatchers(DELETE, ADMIN_URL).hasRole(ADMIN.name())
-                        .requestMatchers(GET,"/api/v1/user").hasRole(ADMIN.name())
-                        .anyRequest().permitAll()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers(POST, "/api/v1/projects/**").hasRole(ADMIN.name())
+                        .requestMatchers(PUT, "/api/v1/projects/**").hasRole(ADMIN.name())
+                        .requestMatchers(DELETE, "/api/v1/projects/**").hasRole(ADMIN.name())
+                        .requestMatchers(GET, "/api/v1/users").hasRole(ADMIN.name())
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
