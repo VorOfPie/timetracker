@@ -1,7 +1,18 @@
 version: '3.8'
 
 services:
-
+  timetracker:
+    container_name: spring-backend
+    env_file: .env
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-sql-bsn:${POSTGRESDB_DOCKER_PORT}/${POSTGRESDB_DATABASE}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRESDB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRESDB_ROOT_PASSWORD}
+    ports:
+      - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
+    depends_on:
+      - postgres
   postgres:
     container_name: postgres-sql-bsn
     image: postgres:16
