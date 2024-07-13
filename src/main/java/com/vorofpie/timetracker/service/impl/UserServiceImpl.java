@@ -4,6 +4,7 @@ import com.vorofpie.timetracker.aspect.annotation.EmailMatchOrAdminAccess;
 import com.vorofpie.timetracker.domain.User;
 import com.vorofpie.timetracker.dto.request.UserRequest;
 import com.vorofpie.timetracker.dto.response.UserResponse;
+import com.vorofpie.timetracker.error.exception.ResourceNotFoundException;
 import com.vorofpie.timetracker.mapper.UserMapper;
 import com.vorofpie.timetracker.repository.UserRepository;
 import com.vorofpie.timetracker.service.UserService;
@@ -13,13 +14,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.vorofpie.timetracker.error.ErrorMessages.USER_NOT_FOUND_MESSAGE;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
 
     @Override
     public List<UserResponse> getAllUsers() {
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService {
         User user = findUserByIdOrThrow(id);
         return userMapper.toUserResponse(user);
     }
+
     @EmailMatchOrAdminAccess
     @Override
     public UserResponse updateUser(Long id, UserRequest userRequest) {
@@ -42,6 +45,7 @@ public class UserServiceImpl implements UserService {
         existingUser = userRepository.save(existingUser);
         return userMapper.toUserResponse(existingUser);
     }
+
     @EmailMatchOrAdminAccess
     @Override
     public void deleteUser(Long id) {
@@ -50,6 +54,6 @@ public class UserServiceImpl implements UserService {
 
     private User findUserByIdOrThrow(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND_MESSAGE, id)));
     }
 }

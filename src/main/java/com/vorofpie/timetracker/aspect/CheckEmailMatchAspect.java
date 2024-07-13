@@ -1,6 +1,8 @@
 package com.vorofpie.timetracker.aspect;
 
 import com.vorofpie.timetracker.domain.User;
+import com.vorofpie.timetracker.error.exception.AccessDeniedException;
+import com.vorofpie.timetracker.error.exception.ResourceNotFoundException;
 import com.vorofpie.timetracker.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
@@ -13,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import static com.vorofpie.timetracker.domain.RoleName.ADMIN;
+import static com.vorofpie.timetracker.error.ErrorMessages.USER_NOT_FOUND_MESSAGE;
+import static com.vorofpie.timetracker.error.ErrorMessages.ACCESS_DENIED_ERROR_MESSAGE;
 
 @Aspect
 @Component
@@ -35,13 +39,13 @@ public class CheckEmailMatchAspect {
                 .toList();
 
         User userToOperate = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND_MESSAGE, userId)));
 
         boolean isEmailMatch = currentUserEmail.equals(userToOperate.getEmail());
         boolean isAdmin = userAuthorities.contains("ROLE_" + ADMIN.name());
 
         if (!isEmailMatch && !isAdmin) {
-            throw new RuntimeException("Access denied");
+            throw new AccessDeniedException(ACCESS_DENIED_ERROR_MESSAGE);
         }
     }
 }
