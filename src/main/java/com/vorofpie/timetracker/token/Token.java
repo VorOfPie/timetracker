@@ -14,8 +14,7 @@ import lombok.*;
 public class Token {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tokens_seq_gen")
-    @SequenceGenerator(name = "tokens_seq_gen", sequenceName = "tokens_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer id;
 
     @Column(unique = true)

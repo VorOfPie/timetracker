@@ -8,35 +8,30 @@
 
     <changeSet id="1" author="Voropay Matvey">
         <insert tableName="users">
-            <column name="id" valueNumeric="1"/>
             <column name="username" value="user1"/>
             <column name="password" value="password1"/>
             <column name="email" value="user1@example.com"/>
             <column name="birth_date" value="1990-01-01"/>
         </insert>
         <insert tableName="users">
-            <column name="id" valueNumeric="2"/>
             <column name="username" value="user2"/>
             <column name="password" value="password2"/>
             <column name="email" value="user2@example.com"/>
             <column name="birth_date" value="1992-02-02"/>
         </insert>
         <insert tableName="users">
-            <column name="id" valueNumeric="3"/>
             <column name="username" value="user3"/>
             <column name="password" value="password3"/>
             <column name="email" value="user3@example.com"/>
             <column name="birth_date" value="1994-03-03"/>
         </insert>
         <insert tableName="users">
-            <column name="id" valueNumeric="4"/>
             <column name="username" value="user4"/>
             <column name="password" value="password4"/>
             <column name="email" value="user4@example.com"/>
             <column name="birth_date" value="1996-04-04"/>
         </insert>
         <insert tableName="users">
-            <column name="id" valueNumeric="5"/>
             <column name="username" value="user5"/>
             <column name="password" value="password5"/>
             <column name="email" value="user5@example.com"/>
@@ -46,27 +41,22 @@
 
     <changeSet id="2" author="Voropay Matvey">
         <insert tableName="projects">
-            <column name="id" valueNumeric="1"/>
             <column name="name" value="Project A"/>
             <column name="description" value="Description for Project A"/>
         </insert>
         <insert tableName="projects">
-            <column name="id" valueNumeric="2"/>
             <column name="name" value="Project B"/>
             <column name="description" value="Description for Project B"/>
         </insert>
         <insert tableName="projects">
-            <column name="id" valueNumeric="3"/>
             <column name="name" value="Project C"/>
             <column name="description" value="Description for Project C"/>
         </insert>
         <insert tableName="projects">
-            <column name="id" valueNumeric="4"/>
             <column name="name" value="Project D"/>
             <column name="description" value="Description for Project D"/>
         </insert>
         <insert tableName="projects">
-            <column name="id" valueNumeric="5"/>
             <column name="name" value="Project E"/>
             <column name="description" value="Description for Project E"/>
         </insert>
@@ -74,70 +64,60 @@
 
     <changeSet id="3" author="Voropay Matvey">
         <insert tableName="task_details">
-            <column name="id" valueNumeric="1"/>
             <column name="project_id" valueNumeric="1"/>
             <column name="name" value="Task 1 for Project A"/>
             <column name="description" value="Description for Task 1"/>
             <column name="status" value="OPEN"/>
         </insert>
         <insert tableName="task_details">
-            <column name="id" valueNumeric="2"/>
             <column name="project_id" valueNumeric="1"/>
             <column name="name" value="Task 2 for Project A"/>
             <column name="description" value="Description for Task 2"/>
             <column name="status" value="IN_PROGRESS"/>
         </insert>
         <insert tableName="task_details">
-            <column name="id" valueNumeric="3"/>
             <column name="project_id" valueNumeric="2"/>
             <column name="name" value="Task 1 for Project B"/>
             <column name="description" value="Description for Task 1"/>
             <column name="status" value="COMPLETED"/>
         </insert>
         <insert tableName="task_details">
-            <column name="id" valueNumeric="4"/>
             <column name="project_id" valueNumeric="2"/>
             <column name="name" value="Task 2 for Project B"/>
             <column name="description" value="Description for Task 2"/>
             <column name="status" value="OPEN"/>
         </insert>
         <insert tableName="task_details">
-            <column name="id" valueNumeric="5"/>
             <column name="project_id" valueNumeric="3"/>
             <column name="name" value="Task 1 for Project C"/>
             <column name="description" value="Description for Task 1"/>
             <column name="status" value="IN_PROGRESS"/>
         </insert>
         <insert tableName="task_details">
-            <column name="id" valueNumeric="6"/>
             <column name="project_id" valueNumeric="3"/>
             <column name="name" value="Task 2 for Project C"/>
             <column name="description" value="Description for Task 2"/>
             <column name="status" value="OPEN"/>
         </insert>
         <insert tableName="task_details">
-            <column name="id" valueNumeric="7"/>
             <column name="project_id" valueNumeric="4"/>
             <column name="name" value="Task 1 for Project D"/>
             <column name="description" value="Description for Task 1"/>
             <column name="status" value="COMPLETED"/>
         </insert>
         <insert tableName="task_details">
-            <column name="id" valueNumeric="8"/>
             <column name="project_id" valueNumeric="4"/>
             <column name="name" value="Task 2 for Project D"/>
             <column name="description" value="Description for Task 2"/>
             <column name="status" value="OPEN"/>
         </insert>
         <insert tableName="task_details">
-            <column name="id" valueNumeric="9"/>
             <column name="project_id" valueNumeric="5"/>
             <column name="name" value="Task 1 for Project E"/>
             <column name="description" value="Description for Task 1"/>
             <column name="status" value="IN_PROGRESS"/>
         </insert>
         <insert tableName="task_details">
-            <column name="id" valueNumeric="10"/>
             <column name="project_id" valueNumeric="5"/>
             <column name="name" value="Task 2 for Project E"/>
             <column name="description" value="Description for Task 2"/>
@@ -147,7 +127,6 @@
 
     <changeSet id="4" author="Voropay Matvey">
         <insert tableName="record_details">
-            <column name="id" valueNumeric="1"/>
             <column name="user_id" valueNumeric="1"/>
             <column name="task_id" valueNumeric="1"/>
             <column name="start_time" value="2023-07-10T09:00:00"/>
@@ -155,7 +134,6 @@
             <column name="description" value="Worked on Task 1"/>
         </insert>
         <insert tableName="record_details">
-            <column name="id" valueNumeric="2"/>
             <column name="user_id" valueNumeric="2"/>
             <column name="task_id" valueNumeric="3"/>
             <column name="start_time" value="2023-07-11T10:00:00"/>
@@ -163,7 +141,6 @@
             <column name="description" value="Worked on Task 1"/>
         </insert>
         <insert tableName="record_details">
-            <column name="id" valueNumeric="3"/>
             <column name="user_id" valueNumeric="3"/>
             <column name="task_id" valueNumeric="2"/>
             <column name="start_time" value="2023-07-12T08:00:00"/>
@@ -171,7 +148,6 @@
             <column name="description" value="Worked on Task 2"/>
         </insert>
         <insert tableName="record_details">
-            <column name="id" valueNumeric="4"/>
             <column name="user_id" valueNumeric="4"/>
             <column name="task_id" valueNumeric="4"/>
             <column name="start_time" value="2023-07-13T09:00:00"/>
@@ -179,7 +155,6 @@
             <column name="description" value="Worked on Task 2"/>
         </insert>
         <insert tableName="record_details">
-            <column name="id" valueNumeric="5"/>
             <column name="user_id" valueNumeric="5"/>
             <column name="task_id" valueNumeric="6"/>
             <column name="start_time" value="2023-07-14T10:00:00"/>

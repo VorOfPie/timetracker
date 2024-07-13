@@ -6,23 +6,11 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
         objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
 
-    <changeSet id="1" author="Voropay Matvey">
-        <createSequence incrementBy="50" sequenceName="projects_seq" startValue="1"/>
-    </changeSet>
-    <changeSet id="2" author="Voropay Matvey">
-        <createSequence incrementBy="50" sequenceName="record_details_seq" startValue="1"/>
-    </changeSet>
-    <changeSet id="3" author="Voropay Matvey">
-        <createSequence incrementBy="50" sequenceName="task_details_seq" startValue="1"/>
-    </changeSet>
-    <changeSet id="4" author="Voropay Matvey">
-        <createSequence incrementBy="50" sequenceName="users_seq" startValue="1"/>
-    </changeSet>
 
     <changeSet id="5" author="Voropay Matvey">
         <createTable tableName="projects">
-            <column name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_projects"/>
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -33,8 +21,8 @@
 
     <changeSet id="6" author="Voropay Matvey">
         <createTable tableName="record_details">
-            <column name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_record_details"/>
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -54,8 +42,8 @@
 
     <changeSet id="7" author="Voropay Matvey">
         <createTable tableName="task_details">
-            <column name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_task_details"/>
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="project_id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -72,8 +60,8 @@
 
     <changeSet id="8" author="Voropay Matvey">
         <createTable tableName="users">
-            <column name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users"/>
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="username" type="VARCHAR(255)">
                 <constraints nullable="false"/>

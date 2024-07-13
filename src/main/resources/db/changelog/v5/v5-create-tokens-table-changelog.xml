@@ -4,10 +4,6 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="1" author="Voropay Matvey">
-        <createSequence sequenceName="tokens_id_seq" startValue="1"/>
-    </changeSet>
-
     <changeSet id="2" author="Voropay Matvey">
         <preConditions onFail="MARK_RAN">
             <not>
@@ -15,7 +11,7 @@
             </not>
         </preConditions>
         <createTable tableName="tokens">
-            <column name="id" type="INTEGER" defaultValueSequenceNext="tokens_id_seq">
+            <column name="id" type="INTEGER" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="token" type="VARCHAR(255)">

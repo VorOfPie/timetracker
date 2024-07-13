@@ -8,11 +8,9 @@
 
     <changeSet id="1" author="Voropay Matvey">
         <insert tableName="roles">
-            <column name="id" valueNumeric="1"/>
             <column name="name" value="USER"/>
         </insert>
         <insert tableName="roles">
-            <column name="id" valueNumeric="2"/>
             <column name="name" value="ADMIN"/>
         </insert>
     </changeSet>
