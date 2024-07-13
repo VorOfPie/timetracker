@@ -6,6 +6,8 @@ import com.vorofpie.timetracker.domain.TaskDetail;
 import com.vorofpie.timetracker.domain.User;
 import com.vorofpie.timetracker.dto.request.RecordDetailRequest;
 import com.vorofpie.timetracker.dto.request.TaskDetailRequest;
+import com.vorofpie.timetracker.error.exception.AccessDeniedException;
+import com.vorofpie.timetracker.error.exception.ResourceNotFoundException;
 import com.vorofpie.timetracker.repository.ProjectRepository;
 import com.vorofpie.timetracker.repository.RecordDetailRepository;
 import com.vorofpie.timetracker.repository.TaskDetailRepository;
@@ -18,6 +20,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import static com.vorofpie.timetracker.error.ErrorMessages.*;
 
 @Aspect
 @Component
@@ -41,7 +45,7 @@ public class ProjectMemberAspect {
     @Before("projectMemberAccess() && args(recordDetailRequest,..)")
     public void beforeCreateOrUpdateRecordDetail(RecordDetailRequest recordDetailRequest) {
         TaskDetail taskDetail = taskDetailRepository.findById(recordDetailRequest.taskId())
-                .orElseThrow(() -> new RuntimeException("Task detail not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(TASK_DETAIL_NOT_FOUND_MESSAGE, recordDetailRequest.taskId())));
         checkProjectMembership(taskDetail.getProject().getId());
     }
 
@@ -51,11 +55,11 @@ public class ProjectMemberAspect {
 
         if (className.contains("TaskDetail")) {
             TaskDetail taskDetail = taskDetailRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Task detail not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException(String.format(TASK_DETAIL_NOT_FOUND_MESSAGE, id)));
             checkProjectMembership(taskDetail.getProject().getId());
         } else if (className.contains("RecordDetail")) {
             RecordDetail recordDetail = recordDetailRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Record detail not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException(String.format(RECORD_DETAIL_NOT_FOUND_MESSAGE, id)));
             checkProjectMembership(recordDetail.getTask().getProject().getId());
         } else if (className.contains("Project")) {
             checkProjectMembership(id);
@@ -66,13 +70,16 @@ public class ProjectMemberAspect {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName();
         User currentUser = userRepository.findByEmail(currentUserEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND_MESSAGE, currentUserEmail)));
 
         Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new RuntimeException("Project not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(PROJECT_NOT_FOUND_MESSAGE, projectId)));
 
-        if (!project.getUsers().contains(currentUser) && !authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
-            throw new RuntimeException("Access denied: User is not a member of the project");
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!project.getUsers().contains(currentUser) && !isAdmin) {
+            throw new AccessDeniedException(ACCESS_DENIED_ERROR_MESSAGE);
         }
     }
 }

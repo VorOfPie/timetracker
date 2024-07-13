@@ -5,7 +5,7 @@ import com.vorofpie.timetracker.dto.error.AppError;
 import com.vorofpie.timetracker.dto.error.AppErrorCustom;
 import com.vorofpie.timetracker.error.exception.AccessDeniedException;
 import com.vorofpie.timetracker.error.exception.DuplicateResourceException;
-import com.vorofpie.timetracker.error.exception.InvalidOrderStatusException;
+import com.vorofpie.timetracker.error.exception.InvalidStatusTransitionException;
 import com.vorofpie.timetracker.error.exception.ResourceNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -78,9 +78,9 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-    @ExceptionHandler(InvalidOrderStatusException.class)
+    @ExceptionHandler(InvalidStatusTransitionException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public AppError handleInvalidOrderStatusException(InvalidOrderStatusException e) {
+    public AppError handleInvalidOrderStatusException(InvalidStatusTransitionException e) {
         return AppError.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(e.getMessage())

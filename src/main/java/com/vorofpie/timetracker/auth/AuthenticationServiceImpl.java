@@ -6,6 +6,9 @@ import com.vorofpie.timetracker.domain.Role;
 import com.vorofpie.timetracker.domain.RoleName;
 import com.vorofpie.timetracker.domain.User;
 import com.vorofpie.timetracker.dto.request.UserRequest;
+import com.vorofpie.timetracker.error.ErrorMessages;
+import com.vorofpie.timetracker.error.exception.DuplicateResourceException;
+import com.vorofpie.timetracker.error.exception.ResourceNotFoundException;
 import com.vorofpie.timetracker.repository.RoleRepository;
 import com.vorofpie.timetracker.repository.UserRepository;
 import com.vorofpie.timetracker.service.AuthenticationService;
@@ -127,15 +130,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     private Role findRoleByName(RoleName roleName) {
-        return roleRepository.findByName(roleName).get();
+        return roleRepository.findByName(roleName)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.ROLE_NOT_FOUND_MESSAGE, roleName)));
     }
 
     private User findUserByEmail(String email) {
-        return userRepository.findByEmail(email).get();}
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.USER_NOT_FOUND_MESSAGE, email)));
+    }
 
     private void checkUserExistence(String email) {
         if (userRepository.existsByEmail(email)) {
-            throw new RuntimeException("This user is already exists");
+            throw new DuplicateResourceException(String.format(ErrorMessages.DUPLICATE_RESOURCE_MESSAGE, "User", "email"));
         }
     }
 

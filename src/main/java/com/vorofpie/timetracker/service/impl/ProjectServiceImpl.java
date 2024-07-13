@@ -7,6 +7,7 @@ import com.vorofpie.timetracker.domain.User;
 import com.vorofpie.timetracker.dto.request.CreateProjectRequest;
 import com.vorofpie.timetracker.dto.request.UpdateProjectRequest;
 import com.vorofpie.timetracker.dto.response.ProjectResponse;
+import com.vorofpie.timetracker.error.exception.ResourceNotFoundException;
 import com.vorofpie.timetracker.mapper.ProjectMapper;
 import com.vorofpie.timetracker.repository.ProjectRepository;
 import com.vorofpie.timetracker.repository.UserRepository;
@@ -22,6 +23,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.vorofpie.timetracker.domain.RoleName.ADMIN;
+import static com.vorofpie.timetracker.error.ErrorMessages.*;
 
 @Service
 @RequiredArgsConstructor
@@ -52,7 +54,7 @@ public class ProjectServiceImpl implements ProjectService {
     @ProjectMemberAccess
     public ProjectResponse getProjectById(Long id) {
         Project project = projectRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(RESOURCE_NOT_FOUND_MESSAGE, "Project", id)));
         return projectMapper.toProjectResponse(project);
     }
 
@@ -76,7 +78,6 @@ public class ProjectServiceImpl implements ProjectService {
         return projectMapper.toProjectResponse(updatedProject);
     }
 
-
     @Override
     public void deleteProject(Long id) {
         projectRepository.deleteById(id);
@@ -85,13 +86,14 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectResponse addUserToProject(Long projectId, Long userId) {
         Project project = findProjectByIdOrThrow(projectId);
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Project not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND_MESSAGE, userId)));
         project.getUsers().add(user);
         return projectMapper.toProjectResponse(projectRepository.save(project));
     }
 
     private Project findProjectByIdOrThrow(Long id) {
         return projectRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(RESOURCE_NOT_FOUND_MESSAGE, "Project", id)));
     }
 }
