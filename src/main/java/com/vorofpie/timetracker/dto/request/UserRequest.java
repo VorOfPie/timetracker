@@ -18,7 +18,7 @@ public record UserRequest(
         @Email(message = "{user.email.invalid}")
         String email,
 
-        @NotBlank(message = "{user.birthdate.notblank}")
+        @NotNull(message = "{user.birthdate.null}")
         @Past(message = "{user.birthdate.past}")
         LocalDate birthDate
 ) {}

@@ -13,15 +13,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
-public class UserController{
+public class UserController {
 
     private final UserService userService;
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse createUser(@RequestBody @Valid UserRequest userRequest) {
-        return userService.createUser(userRequest);
-    }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "record_details")
 public class RecordDetail {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

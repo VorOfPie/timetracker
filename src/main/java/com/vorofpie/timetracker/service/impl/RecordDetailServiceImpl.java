@@ -1,5 +1,7 @@
 package com.vorofpie.timetracker.service.impl;
 
+import com.vorofpie.timetracker.aspect.annotation.ProjectMemberAccess;
+import com.vorofpie.timetracker.config.SecurityUser;
 import com.vorofpie.timetracker.domain.RecordDetail;
 import com.vorofpie.timetracker.domain.TaskDetail;
 import com.vorofpie.timetracker.domain.User;
@@ -11,10 +13,15 @@ import com.vorofpie.timetracker.repository.TaskDetailRepository;
 import com.vorofpie.timetracker.repository.UserRepository;
 import com.vorofpie.timetracker.service.RecordDetailService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.vorofpie.timetracker.domain.RoleName.ADMIN;
 
 @Service
 @RequiredArgsConstructor
@@ -28,17 +35,31 @@ public class RecordDetailServiceImpl implements RecordDetailService {
 
     @Override
     public List<RecordDetailResponse> getAllRecordDetails() {
-        return recordDetailRepository.findAll().stream()
+        SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        boolean isAdmin = securityUser.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(authority -> authority.equals("ROLE_" + ADMIN.name()));
+
+        List<RecordDetail> recordDetails;
+
+        if (isAdmin) {
+            recordDetails = recordDetailRepository.findAll();
+        } else {
+            recordDetails = recordDetailRepository.findByTask_Project_Users_Id(securityUser.user().getId());
+        }
+
+        return recordDetails.stream()
                 .map(recordDetailMapper::toRecordDetailResponse)
                 .collect(Collectors.toList());
     }
-
+    @ProjectMemberAccess
     @Override
     public RecordDetailResponse getRecordDetailById(Long id) {
         RecordDetail recordDetail = findRecordDetailByIdOrThrow(id);
         return recordDetailMapper.toRecordDetailResponse(recordDetail);
     }
-
+    @ProjectMemberAccess
     @Override
     public RecordDetailResponse createRecordDetail(RecordDetailRequest recordDetailRequest) {
         TaskDetail taskDetail = taskDetailRepository.findById(recordDetailRequest.taskId())
@@ -54,7 +75,7 @@ public class RecordDetailServiceImpl implements RecordDetailService {
     }
 
 
-
+    @ProjectMemberAccess
     @Override
     public RecordDetailResponse updateRecordDetail(Long id, RecordDetailRequest recordDetailRequest) {
         RecordDetail existingRecordDetail = findRecordDetailByIdOrThrow(id);
@@ -66,7 +87,7 @@ public class RecordDetailServiceImpl implements RecordDetailService {
         return recordDetailMapper.toRecordDetailResponse(existingRecordDetail);
     }
 
-
+    @ProjectMemberAccess
     @Override
     public void deleteRecordDetail(Long id) {
         recordDetailRepository.deleteById(id);

@@ -7,11 +7,10 @@ import java.util.List;
 
 public interface UserService {
 
+
     List<UserResponse> getAllUsers();
 
     UserResponse getUserById(Long id);
-
-    UserResponse createUser(UserRequest userRequest);
 
     UserResponse updateUser(Long id, UserRequest userRequest);
 
